@@ -19,11 +19,8 @@ OUTPUT_PATH="manifests/sealed-secrets/${SECRET_NAME}-sealed.yaml"
 CERT_PATH="pub-cert.pem"
 
 # Check that the controller is installed and running
-if ! kubectl get pods -n sealed-secrets 2>/dev/null | grep -q sealed-secrets-controller; then
-  echo "❌ Controller not found in 'sealed-secrets' namespace."
-  echo "Please install it using:"
-  echo "  helm repo add sealed-secrets https://bitnami-labs.github.io/sealed-secrets"
-  echo "  helm install sealed-secrets-controller sealed-secrets/sealed-secrets --namespace sealed-secrets"
+if ! kubectl get secret -n sealed-secrets -l sealedsecrets.bitnami.com/sealed-secrets-key >/dev/null 2>&1; then
+  echo "❌ Sealed Secrets key not found. Ensure the controller is installed and key is available."
   exit 1
 fi
 
