@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-secrets-demo
+  labels:
+    app: secrets-demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: secrets-demo
+  template:
+    metadata:
+      labels:
+        app: secrets-demo
+    spec:
+      serviceAccountName: irsa-secrets-demo  
+      containers:
+        - name: app
+          image: app-secrets-demo:latest
+          env:
+            - name: APP_SECRET  # Reads value from sealed secret named app-secret
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: secret-value
+
+            - name: DB_PASSWORD  # Reads value from sealed secret named db-password
+              valueFrom:
+                secretKeyRef:
+                  name: db-password
+                  key: password
+
+          ports:
+            - containerPort: 5000
