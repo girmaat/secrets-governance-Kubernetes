@@ -20,13 +20,13 @@ CERT_PATH="pub-cert.pem"
 
 # Check that the controller is installed and running
 if ! kubectl get secret -n sealed-secrets -l sealedsecrets.bitnami.com/sealed-secrets-key >/dev/null 2>&1; then
-  echo "❌ Sealed Secrets key not found. Ensure the controller is installed and key is available."
+  echo "Sealed Secrets key not found. Ensure the controller is installed and key is available."
   exit 1
 fi
 
 # Ensure the public cert exists
 if [[ ! -f "$CERT_PATH" ]]; then
-  echo "❌ Error: $CERT_PATH not found. Export it from the controller before sealing."
+  echo "Error: $CERT_PATH not found. Export it from the controller before sealing."
   echo "Use:"
   echo "  kubectl get secret -n sealed-secrets -l sealedsecrets.bitnami.com/sealed-secrets-key \\"
   echo "    -o jsonpath='{.items[0].data[\"tls.crt\"]}' | base64 -d > pub-cert.pem"
@@ -34,11 +34,11 @@ if [[ ! -f "$CERT_PATH" ]]; then
 fi
 
 # Prompt user to enter the secret value
-read -sp "🔐 Enter secret value for key '$KEY': " VALUE
+read -sp "Enter secret value for key '$KEY': " VALUE
 echo
 
 # Confirm where the output will go
-echo "📦 Sealing and saving to: $OUTPUT_PATH"
+echo "Sealing and saving to: $OUTPUT_PATH"
 
 # Ensure the output directory exists
 mkdir -p "$(dirname "$OUTPUT_PATH")"
@@ -49,11 +49,11 @@ echo -n "$VALUE" | kubectl create secret generic "$SECRET_NAME" \
   kubeseal --format yaml --cert "$CERT_PATH" > "$OUTPUT_PATH"
 
 # Final output
-echo "✅ Sealed secret saved to: $OUTPUT_PATH"
+echo "Sealed secret saved to: $OUTPUT_PATH"
 
 # Post-sealing guidance
 echo
-echo "📌 Next steps:"
+echo "Next steps:"
 echo "  1. Review the sealed secret file:"
 echo "     cat $OUTPUT_PATH"
 echo "  2. Commit it to Git:"

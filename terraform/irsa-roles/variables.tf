@@ -22,8 +22,5 @@ variable "region" {
   description = "AWS region for conditional access policies"
   type        = string
 }
-variable "secret_arn" {
-  description = "ARN of the secret in AWS Secrets Manager"
-  type        = string
-}
+
 

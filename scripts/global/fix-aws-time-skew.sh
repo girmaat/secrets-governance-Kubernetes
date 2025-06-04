@@ -12,10 +12,10 @@ sudo systemctl restart chronyd
 echo -e "${BLUE}⏱️ Forcing immediate time sync with 'chronyc makestep'...${NC}"
 sudo chronyc makestep
 
-echo -e "${BLUE}🔍 Checking new system time drift...${NC}"
+echo -e "${BLUE}Checking new system time drift...${NC}"
 chronyc tracking
 
-echo -e "${BLUE}🔐 Verifying AWS credentials (sts get-caller-identity)...${NC}"
+echo -e "${BLUE}Verifying AWS credentials (sts get-caller-identity)...${NC}"
 if aws sts get-caller-identity > /dev/null 2>&1; then
   echo -e "${GREEN}[✔] AWS credentials are now valid. Time is synced.${NC}"
 else

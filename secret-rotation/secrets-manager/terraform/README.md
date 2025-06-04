@@ -1,4 +1,4 @@
-# 📦 Secrets Manager Rotation Module
+# Secrets Manager Rotation Module
 
 This Terraform module provisions:
 - A Lambda function to rotate a Secrets Manager secret
@@ -8,7 +8,7 @@ This Terraform module provisions:
 
 ---
 
-## ✅ Secret Input: Simplest Secure Pattern
+## Secret Input: Simplest Secure Pattern
 
 To provide the secret content (e.g., app password), we use:
 

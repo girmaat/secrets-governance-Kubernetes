@@ -7,7 +7,7 @@
 SECRET_NAME="/dev/app/db-password"  # Update as needed
 REGION="us-east-1"
 
-echo "🔍 Describing secret: $SECRET_NAME"
+echo "Describing secret: $SECRET_NAME"
 
 aws secretsmanager describe-secret \
   --secret-id "$SECRET_NAME" \
@@ -15,15 +15,15 @@ aws secretsmanager describe-secret \
   --query '{Name:Name, RotationEnabled:RotationEnabled, LastChangedDate:LastChangedDate, LastRotatedDate:LastRotatedDate, RotationLambdaARN:RotationLambdaARN, Tags:Tags}' \
   --output table
 
-echo -e "\n🧪 Checking secret versions:"
+echo -e "\nChecking secret versions:"
 aws secretsmanager list-secret-version-ids \
   --secret-id "$SECRET_NAME" \
   --region "$REGION" \
   --query 'SecretVersions[*].{VersionId:VersionId, Stages:VersionStages}' \
   --output table
 
-echo -e "\n📄 Checking if rotation Lambda exists:"
+echo -e "\nChecking if rotation Lambda exists:"
 LAMBDA_ARN=$(aws secretsmanager describe-secret --secret-id "$SECRET_NAME" --region "$REGION" --query 'RotationLambdaARN' --output text)
 aws lambda get-function-configuration --function-name "$LAMBDA_ARN" --region "$REGION"
 
-echo -e "\n✅ Done: Secret + Lambda rotation config verified."
+echo -e "\nDone: Secret + Lambda rotation config verified."
