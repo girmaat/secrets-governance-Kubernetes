@@ -1,0 +1,59 @@
+title = "Gitleaks Configuration for AWS Secrets Manager Project"
+description = "Scan Terraform, YAML, and Python files for exposed secrets."
+version = 3
+
+[allowlist]
+description = "Allow patterns that are false positives, test values, or example content."
+files = [
+  "**/README.md",
+  "**/example*/**",
+  "**/test*/**"
+]
+paths = []
+regexes = [
+  # Allow intentionally fake/test secrets
+  '''(?i)test_?key''',
+  '''(?i)dummy_?(password|token|secret)''',
+  '''(?i)placeholder(_|-)?secret'''
+]
+
+[rule.files]
+description = "Scan these file types"
+extensions = [".tf", ".tfvars", ".yaml", ".yml", ".py", ".sh", ".json"]
+
+[[rules]]
+id = "aws-access-key-id"
+description = "AWS Access Key ID"
+regex = '''AKIA[0-9A-Z]{16}'''
+tags = ["key", "AWS"]
+
+[[rules]]
+id = "aws-secret-access-key"
+description = "AWS Secret Access Key"
+regex = '''(?i)aws(.{0,20})?(secret|private)?(.{0,20})?(key)?.{0,20}['|"]([A-Za-z0-9/+=]{40})['|"]'''
+tags = ["key", "AWS"]
+
+[[rules]]
+id = "generic-api-key"
+description = "Generic API Key"
+regex = '''(?i)(api|token|key|secret).{0,10}['|"][0-9a-zA-Z]{32,45}['|"]'''
+tags = ["key", "generic"]
+
+[[rules]]
+id = "hardcoded-password"
+description = "Hardcoded Password"
+regex = '''(?i)(password|pwd)['|"]?\s*[:=]\s*['|"][^'"]{6,}['|"]'''
+tags = ["password", "secrets"]
+
+[[rules]]
+id = "slack-token"
+description = "Slack Token"
+regex = '''xox[baprs]-([0-9a-zA-Z]{10,48})'''
+tags = ["token", "slack"]
+
+[[rules]]
+id = "secretsmanager-secret-value"
+description = "AWS SecretsManager Secret Value (Terraform hardcoding)"
+regex = '''(?i)secret_string\s*=\s*jsonencode\(\s*\{[^}]*password[^}]*\}'''
+tags = ["aws", "terraform", "secret"]
+

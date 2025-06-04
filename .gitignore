@@ -60,5 +60,14 @@ dr-tests/sealed-secrets/*
 # === Optional Custom Folders ===
 test-output/
 secrets-dumps/
+terraform.tfvars
+*.tfstate*
+
+# Sensitive inputs
+terraform.tfvars
+*.tfstate
+*.tfstate.*
+.env
 
 .git
+
