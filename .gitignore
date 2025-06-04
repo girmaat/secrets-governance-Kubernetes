@@ -5,41 +5,60 @@
 terraform.tfvars
 .terraform.lock.hcl
 
-# === Kubernetes Secrets / Cache ===
-*.crt
-*.key
-*.pem
-*.enc
-*.sealedsecret.yaml
+# === Kubernetes Secrets / GitOps ===
+*.crt              # TLS certs (Sealed Secrets, Ingress)
+*.key              # TLS private keys
+*.pem              # Public/private keys
+*.enc              # Encrypted files
+*.sealedsecret.yaml # Legacy sealed secret outputs
+*.sealed.yaml       # Sealed Secrets outputs
+manifests/sealed-secrets/*.yaml  # Optional: exclude committed secrets (adjust if needed)
 
-# === Logs / Output ===
+# === AWS Secrets Manager ===
+scripts/fetch-secrets-sm.py       # Optional: if dynamically generated
+*.csv                             # Audit exports
+*.audit.json                      # Output of scan scripts
+*.secrets.json                    # Output from fetch scripts
+.secrets/                         # Any cached or temp secrets
+
+# === Logs / Outputs ===
 *.log
 *.out
 *.err
 *.tmp
 tmp/
 
-# === Python Cache ===
+# === Python ===
 __pycache__/
 *.pyc
+*.pyo
+*.pyd
+.env
+.env.*
 
-# === IDE & Editor ===
+# === Node / JS (if applicable) ===
+node_modules/
+dist/
+build/
+
+# === IDE / Editor ===
 .vscode/
 .idea/
 .DS_Store
 
-# === CI / Misc ===
-.env
-node_modules/
-coverage/
-.secrets/
-dist/
-build/
-
-# === Backup Keys (even if encrypted) ===
-dr-tests/*.backup
-dr-tests/*key*
-
-# === Optional ===
+# === CI / Audit Tools ===
 .gitleaks-report.json
 scan-results/
+gitleaks-output/
+conftest-report/
+
+# === Backup Keys or Disaster Recovery ===
+dr-tests/*.backup
+dr-tests/*key*
+dr-tests/sealed-secrets/*
+
+# === Optional Custom Folders ===
+test-output/
+secrets-dumps/
+
+.git
