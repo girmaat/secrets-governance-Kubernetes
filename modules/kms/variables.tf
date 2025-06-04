@@ -3,6 +3,11 @@ variable "description" {
   type        = string
 }
 
+variable "region" {
+  type        = string
+  description = "Region for scoped permissions (e.g. KMS conditions)"
+}
+
 variable "enable_key_rotation" {
   description = "Enable automatic key rotation"
   type        = bool

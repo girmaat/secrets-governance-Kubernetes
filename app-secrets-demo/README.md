@@ -2,9 +2,9 @@
 
 A minimal Flask app that demonstrates secrets delivery via:
 
-- 🔐 Bitnami Sealed Secrets (sealed + decrypted at deploy time)
-- 🔑 AWS Secrets Manager via IRSA (for dynamic access)
-- 📊 CloudTrail & Grafana observability
+- Bitnami Sealed Secrets (sealed + decrypted at deploy time)
+- AWS Secrets Manager via IRSA (for dynamic access)
+- CloudTrail & Grafana observability
 
 ## Endpoints
 

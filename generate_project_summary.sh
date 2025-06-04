@@ -27,4 +27,4 @@ find . -type f ! -path "./$SCRIPT_NAME" ! -path "./$OUTPUT_FILE" | while read -r
   fi
 done
 
-echo "✅ Project summary written to: $OUTPUT_FILE"
+echo "Project summary written to: $OUTPUT_FILE"
